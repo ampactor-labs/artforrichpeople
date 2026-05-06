@@ -1,0 +1,19 @@
+# Internal strategy — never commit
+BRAND.md
+CLAUDE.md
+ROADMAP.md
+NOTES/
+.notes/
+
+# Local-only
+*.local
+.env
+.env.*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+.idea/
+.vscode/
