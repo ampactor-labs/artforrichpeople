@@ -320,6 +320,40 @@ footer {
 }
 .fade-in.visible { opacity: 1; transform: translateY(0); }
 
+[data-state="for-sale"] [data-show-when="between"],
+[data-state="between"] [data-show-when="for-sale"] {
+  display: none;
+}
+[data-state="for-sale"] nav .status-between,
+[data-state="between"] nav .status-for-sale { display: none; }
+nav .status-between::before { content: none; }
+
+.between-pieces {
+  max-width: 720px;
+  margin: 0 auto;
+  text-align: center;
+}
+.between-pieces .piece-image {
+  aspect-ratio: 4/5;
+  max-width: 440px;
+  margin: 0 auto 4rem;
+}
+.between-line {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(2.2rem, 5vw, 4rem);
+  font-weight: 400;
+  line-height: 1.1;
+}
+
+footer a {
+  color: var(--dim);
+  text-decoration: none;
+  letter-spacing: 0.15em;
+  transition: color 0.3s;
+}
+footer a:hover { color: var(--fg); }
+
 @media (max-width: 800px) {
   .piece { grid-template-columns: 1fr; gap: 3rem; }
   section { padding: 5rem 1.5rem; }
@@ -330,11 +364,12 @@ footer {
 }
 </style>
 </head>
-<body>
+<body data-state="for-sale">
 
 <nav>
   <div class="logo">A · F · R · P</div>
-  <div class="status">1 PIECE AVAILABLE</div>
+  <div class="status status-for-sale">1 PIECE AVAILABLE</div>
+  <div class="status status-between">BETWEEN PIECES</div>
 </nav>
 
 <section class="hero">
@@ -343,7 +378,7 @@ footer {
   <div class="scroll">↓ &nbsp;&nbsp; SCROLL, IF YOU INSIST</div>
 </section>
 
-<section>
+<section data-show-when="for-sale">
   <div class="label fade-in">Currently in inventory</div>
   <div class="piece">
     <div class="piece-image fade-in">
@@ -373,7 +408,7 @@ footer {
     </div>
     <div class="piece-info fade-in">
       <h2>Untitled.<br><em style="color: var(--dim); font-size: 0.7em;">(You'll name it.)</em></h2>
-      <p>Original. Signed. Documented. Then we destroy the source files on a livestream you receive a link to.</p>
+      <p>Original. Signed. Documented. Then we destroy the source materials on a livestream you receive a link to.</p>
       <p>No prints. No editions. No drops. No NFTs. No "limited run of fifty." One. That's the entire bit.</p>
       <div class="specs">
         <div><span>Edition</span><span>1 of 1</span></div>
@@ -384,6 +419,31 @@ footer {
         <div><span>Status</span><span class="available">AVAILABLE</span></div>
       </div>
     </div>
+  </div>
+</section>
+
+<section data-show-when="between">
+  <div class="label fade-in" style="justify-content: center;">Status</div>
+  <div class="between-pieces fade-in">
+    <div class="piece-image">
+      <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice">
+        <defs>
+          <radialGradient id="vignette-b" cx="50%" cy="45%" r="75%">
+            <stop offset="0%" stop-color="#1c1815"/>
+            <stop offset="60%" stop-color="#0d0b09"/>
+            <stop offset="100%" stop-color="#070605"/>
+          </radialGradient>
+          <filter id="grain-b">
+            <feTurbulence baseFrequency="0.95" numOctaves="2" seed="5"/>
+            <feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.18 0"/>
+            <feComposite in="SourceGraphic" operator="in"/>
+          </filter>
+        </defs>
+        <rect width="400" height="500" fill="url(#vignette-b)"/>
+        <rect width="400" height="500" filter="url(#grain-b)" opacity="0.6"/>
+      </svg>
+    </div>
+    <p class="between-line">Between pieces. Check back.</p>
   </div>
 </section>
 
@@ -409,7 +469,7 @@ footer {
   </div>
 </section>
 
-<section class="acquire">
+<section class="acquire" data-show-when="for-sale">
   <div class="label fade-in" style="justify-content: center;">Acquisition</div>
   <div class="price-wrap fade-in"><div class="price">$ <span id="price">87,500</span></div></div>
   <div class="note fade-in">WIRE OR USDC · NO CARDS · NO HAGGLING</div>
@@ -419,6 +479,7 @@ footer {
 
 <footer>
   <div>© ARTFORRICHPEOPLE · 2026</div>
+  <a href="/archive.html">ARCHIVE</a>
   <div>WE'LL CALL YOU. DON'T CALL US.</div>
 </footer>
 
@@ -426,15 +487,26 @@ footer {
   <div class="modal-content">
     <h2>Acquisition</h2>
     <p>$87,500. Wire or USDC. The piece is a one-of-one — no reproductions, no editions, no prints. Delivery by accredited art handlers, fully insured. Source materials are destroyed on a recorded livestream the buyer attends. No returns.</p>
-    <p>Write to <a href="mailto:acquire@artforrichpeople.com">acquire@artforrichpeople.com</a> to begin.</p>
+    <p>Write to <a data-mailto data-mailto-show>the address</a> to begin.</p>
     <div class="modal-actions">
-      <a class="btn" href="mailto:acquire@artforrichpeople.com">Compose</a>
+      <a class="btn" data-mailto>Compose</a>
       <button class="btn btn-secondary" onclick="closeModal()">Close</button>
     </div>
   </div>
 </div>
 
 <script>
+(function() {
+  const email = ['acquire', '@', 'artforrichpeople', '.com'].join('');
+  const mailto = 'mailto:' + email;
+  document.querySelectorAll('[data-mailto]').forEach(el => {
+    el.href = mailto;
+  });
+  document.querySelectorAll('[data-mailto-show]').forEach(el => {
+    el.textContent = email;
+  });
+})();
+
 function openModal() {
   document.getElementById('modal').classList.add('open');
 }
@@ -470,6 +542,27 @@ document.getElementById('modal').addEventListener('click', (e) => {
   if (e.target.id === 'modal') closeModal();
 });
 </script>
+
+<!--
+  Analytics — privacy-respecting, no cookies, no consent banner needed.
+  Pick ONE option below when ready. See NOTES/ANALYTICS.md for setup.
+
+  OPTION A — Cloudflare Web Analytics (free):
+    1. dash.cloudflare.com → Web Analytics → Add a site → enter artforrichpeople.com
+    2. Copy the beacon token; paste into the script tag below; uncomment it
+    3. Update CSP at top of file: add `https://static.cloudflareinsights.com` to script-src AND
+       a new directive `connect-src 'self' https://static.cloudflareinsights.com`
+
+    <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"YOUR_CF_TOKEN"}'></script>
+
+  OPTION B — Plausible ($9/mo, better dashboards, 30-day free trial):
+    1. plausible.io → add site artforrichpeople.com
+    2. Uncomment the script tag below
+    3. Update CSP at top of file: add `https://plausible.io` to script-src AND
+       a new directive `connect-src 'self' https://plausible.io`
+
+    <script defer data-domain="artforrichpeople.com" src="https://plausible.io/js/script.js"></script>
+-->
 
 </body>
 </html>
