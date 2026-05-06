@@ -225,21 +225,20 @@ section { padding: 9rem 2.5rem; }
   display: inline-block;
   transition: color 0.3s;
 }
-.acquire .price-wrap:hover .price { color: var(--accent); }
 .acquire .note {
   font-family: 'JetBrains Mono', monospace;
   font-size: 0.75rem;
   color: var(--dim);
   letter-spacing: 0.2em;
-  margin-bottom: 3rem;
+  margin-bottom: 1.5rem;
 }
-.acquire .nudge {
+.acquire .truth {
   font-family: 'JetBrains Mono', monospace;
-  font-size: 0.65rem;
-  color: var(--dim);
-  letter-spacing: 0.15em;
-  margin-top: 1rem;
-  opacity: 0.5;
+  font-size: 0.78rem;
+  color: var(--fg);
+  letter-spacing: 0.25em;
+  margin-bottom: 3.5rem;
+  opacity: 0.85;
 }
 .btn {
   display: inline-block;
@@ -354,6 +353,40 @@ footer a {
 }
 footer a:hover { color: var(--fg); }
 
+.refusals {
+  padding: 6rem 2.5rem;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+.refusals ul {
+  list-style: none;
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1.5rem 3rem;
+}
+.refusals li {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.85rem;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  color: var(--dim);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 0.7s ease, transform 0.7s ease, color 0.5s ease;
+  cursor: default;
+}
+.refusals li:hover { color: var(--accent); }
+.refusals.visible li { opacity: 1; transform: translateY(0); }
+.refusals.visible li:nth-child(1) { transition-delay: 0.05s; }
+.refusals.visible li:nth-child(2) { transition-delay: 0.15s; }
+.refusals.visible li:nth-child(3) { transition-delay: 0.25s; }
+.refusals.visible li:nth-child(4) { transition-delay: 0.35s; }
+.refusals.visible li:nth-child(5) { transition-delay: 0.45s; }
+.refusals.visible li:nth-child(6) { transition-delay: 0.55s; }
+
 @media (max-width: 800px) {
   .piece { grid-template-columns: 1fr; gap: 3rem; }
   section { padding: 5rem 1.5rem; }
@@ -361,6 +394,8 @@ footer a:hover { color: var(--fg); }
   .hero { padding: 0 1.5rem; }
   .hero .scroll { left: 1.5rem; }
   footer { padding: 2rem 1.5rem; }
+  .refusals { padding: 4rem 1.5rem; }
+  .refusals ul { gap: 1rem 2rem; justify-content: center; }
 }
 </style>
 </head>
@@ -379,7 +414,7 @@ footer a:hover { color: var(--fg); }
 </section>
 
 <section data-show-when="for-sale">
-  <div class="label fade-in">Currently in inventory</div>
+  <div class="label fade-in">The piece</div>
   <div class="piece">
     <div class="piece-image fade-in">
       <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice">
@@ -458,9 +493,11 @@ footer a:hover { color: var(--fg); }
   <div class="label fade-in">Frequently asked, rarely answered</div>
   <div class="faq">
     <div class="faq-item"><h3>Why is it so expensive?</h3><div class="answer">Because someone else wants it.</div></div>
+    <div class="faq-item"><h3>Why would anyone buy this?</h3><div class="answer">Because someone else can't.</div></div>
     <div class="faq-item"><h3>Can I get a print?</h3><div class="answer">No.</div></div>
     <div class="faq-item"><h3>Can I see more pieces?</h3><div class="answer">When this one sells.</div></div>
-    <div class="faq-item"><h3>Is it really one of one?</h3><div class="answer">The source files are deleted on livestream. You get the link. You get to watch. There is no second copy in the world.</div></div>
+    <div class="faq-item"><h3>Is it really one of one?</h3><div class="answer">The source materials are destroyed on livestream. You get the link. You get to watch. There is no second copy in the world.</div></div>
+    <div class="faq-item"><h3>Who made this?</h3><div class="answer">Us.</div></div>
     <div class="faq-item"><h3>What if I don't like it?</h3><div class="answer">Then you weren't ready.</div></div>
     <div class="faq-item"><h3>Can I get a discount?</h3><div class="answer">That was the discount.</div></div>
     <div class="faq-item"><h3>Returns?</h3><div class="answer">No.</div></div>
@@ -471,10 +508,21 @@ footer a:hover { color: var(--fg); }
 
 <section class="acquire" data-show-when="for-sale">
   <div class="label fade-in" style="justify-content: center;">Acquisition</div>
-  <div class="price-wrap fade-in"><div class="price">$ <span id="price">87,500</span></div></div>
-  <div class="note fade-in">WIRE OR USDC · NO CARDS · NO HAGGLING</div>
+  <div class="price-wrap fade-in"><div class="price">$ 87,500</div></div>
+  <div class="note fade-in">WIRE OR USDC · NO CARDS · NO HAGGLING · NO RETURNS</div>
+  <div class="truth fade-in">ONE PERSON OWNS IT. EVERYONE ELSE WATCHES.</div>
   <button class="btn fade-in" onclick="openModal()">Acquire the piece</button>
-  <div class="nudge fade-in">↑ HOVER THE PRICE. WE DARE YOU.</div>
+</section>
+
+<section class="refusals fade-in">
+  <ul>
+    <li>NO TWITTER</li>
+    <li>NO INSTAGRAM</li>
+    <li>NO NEWSLETTER</li>
+    <li>NO PRINTS</li>
+    <li>NO RESALE</li>
+    <li>NO COMMUNITY</li>
+  </ul>
 </section>
 
 <footer>
@@ -514,17 +562,11 @@ function closeModal() {
   document.getElementById('modal').classList.remove('open');
 }
 
-// Price hover ratchet — every hover bumps it up. The bit.
-const prices = ['87,500', '125,000', '210,000', '475,000', '1,200,000', 'Ask'];
-let priceIdx = 0;
-const priceWrap = document.querySelector('.price-wrap');
-const priceEl = document.getElementById('price');
-priceWrap.addEventListener('mouseenter', () => {
-  if (priceIdx < prices.length - 1) {
-    priceIdx++;
-    priceEl.textContent = prices[priceIdx];
-  }
-});
+// State-aware browser title
+document.title = ({
+  'for-sale': 'ART FOR RICH PEOPLE · 1 OF 1',
+  'between': 'ART FOR RICH PEOPLE · BETWEEN PIECES'
+})[document.body.dataset.state] || document.title;
 
 // FAQ accordion
 document.querySelectorAll('.faq-item').forEach(item => {
