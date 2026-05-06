@@ -412,67 +412,22 @@ footer {
 
 <div class="modal" id="modal">
   <div class="modal-content">
-    <h2 id="modal-title">Are you sure?</h2>
-    <p id="modal-text">$87,500. Non-refundable. Non-negotiable. Wire or USDC. There is one. After today there is none.</p>
-    <div class="modal-actions" id="modal-actions">
-      <button class="btn" onclick="confirmStep()">Yes. I'm sure.</button>
-      <button class="btn btn-secondary" onclick="closeModal()">Nevermind</button>
+    <h2>Acquisition</h2>
+    <p>$87,500. Settlement by wire or USDC. The piece is a one-of-one — no reproductions, no editions, no prints. Source materials are destroyed on a recorded livestream the buyer attends. No returns.</p>
+    <p>Write to <a href="mailto:acquire@artforrichpeople.com">acquire@artforrichpeople.com</a> to begin.</p>
+    <div class="modal-actions">
+      <a class="btn" href="mailto:acquire@artforrichpeople.com">Compose</a>
+      <button class="btn btn-secondary" onclick="closeModal()">Close</button>
     </div>
   </div>
 </div>
 
 <script>
-let modalStep = 0;
-
 function openModal() {
-  modalStep = 1;
   document.getElementById('modal').classList.add('open');
-  resetModal();
-}
-function resetModal() {
-  document.getElementById('modal-title').textContent = 'Are you sure?';
-  document.getElementById('modal-text').textContent = '$87,500. Non-refundable. Non-negotiable. Wire or USDC. There is one. After today there is none.';
-  document.getElementById('modal-actions').innerHTML =
-    '<button class="btn" onclick="confirmStep()">Yes. I\'m sure.</button>' +
-    '<button class="btn btn-secondary" onclick="closeModal()">Nevermind</button>';
 }
 function closeModal() {
-  modalStep = 0;
   document.getElementById('modal').classList.remove('open');
-}
-function confirmStep() {
-  if (modalStep === 1) {
-    modalStep = 2;
-    document.getElementById('modal-title').textContent = 'Still?';
-    document.getElementById('modal-text').textContent = "Six figures. Wire or USDC. To people you've never met. For one piece, whose source materials we destroy on camera afterwards. Bitch, you won't.";
-    document.getElementById('modal-actions').innerHTML =
-      '<button class="btn" onclick="confirmStep()">Send it.</button>' +
-      '<button class="btn btn-secondary" onclick="closeModal()">Walk away</button>';
-  } else if (modalStep === 2) {
-    modalStep = 3;
-    document.getElementById('modal-title').textContent = 'Noted.';
-
-    const textEl = document.getElementById('modal-text');
-    textEl.textContent = '';
-    const inlineLink = document.createElement('a');
-    inlineLink.href = 'mailto:acquire@artforrichpeople.com';
-    inlineLink.textContent = 'acquire@artforrichpeople.com';
-    textEl.appendChild(inlineLink);
-    textEl.appendChild(document.createTextNode('. Make it convincing. We reply when we reply.'));
-
-    const actionsEl = document.getElementById('modal-actions');
-    actionsEl.textContent = '';
-    const composeBtn = document.createElement('a');
-    composeBtn.className = 'btn';
-    composeBtn.href = 'mailto:acquire@artforrichpeople.com';
-    composeBtn.textContent = 'Compose';
-    actionsEl.appendChild(composeBtn);
-    const closeBtn = document.createElement('button');
-    closeBtn.className = 'btn btn-secondary';
-    closeBtn.onclick = closeModal;
-    closeBtn.textContent = 'Close';
-    actionsEl.appendChild(closeBtn);
-  }
 }
 
 // Price hover ratchet — every hover bumps it up. The bit.
