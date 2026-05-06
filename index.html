@@ -387,7 +387,7 @@ footer {
 <section class="acquire">
   <div class="label fade-in" style="justify-content: center;">Acquisition</div>
   <div class="price-wrap fade-in"><div class="price">$ <span id="price">87,500</span></div></div>
-  <div class="note fade-in">WIRE TRANSFER ONLY · NO HAGGLING · NO FINANCING</div>
+  <div class="note fade-in">WIRE OR USDC · NO CARDS · NO HAGGLING</div>
   <button class="btn fade-in" onclick="openModal()">Acquire the piece</button>
   <div class="nudge fade-in">↑ HOVER THE PRICE. WE DARE YOU.</div>
 </section>
@@ -400,7 +400,7 @@ footer {
 <div class="modal" id="modal">
   <div class="modal-content">
     <h2 id="modal-title">Are you sure?</h2>
-    <p id="modal-text">$87,500. Non-refundable. Non-negotiable. Wire only. There is one. After today there is none.</p>
+    <p id="modal-text">$87,500. Non-refundable. Non-negotiable. Wire or USDC. There is one. After today there is none.</p>
     <div class="modal-actions" id="modal-actions">
       <button class="btn" onclick="confirmStep()">Yes. I'm sure.</button>
       <button class="btn btn-secondary" onclick="closeModal()">Nevermind</button>
@@ -418,7 +418,7 @@ function openModal() {
 }
 function resetModal() {
   document.getElementById('modal-title').textContent = 'Are you sure?';
-  document.getElementById('modal-text').textContent = '$87,500. Non-refundable. Non-negotiable. Wire only. There is one. After today there is none.';
+  document.getElementById('modal-text').textContent = '$87,500. Non-refundable. Non-negotiable. Wire or USDC. There is one. After today there is none.';
   document.getElementById('modal-actions').innerHTML =
     '<button class="btn" onclick="confirmStep()">Yes. I\'m sure.</button>' +
     '<button class="btn btn-secondary" onclick="closeModal()">Nevermind</button>';
@@ -431,14 +431,14 @@ function confirmStep() {
   if (modalStep === 1) {
     modalStep = 2;
     document.getElementById('modal-title').textContent = 'Still?';
-    document.getElementById('modal-text').textContent = "We're going to ask you for a wire. Six figures. To people you've never met. For one piece we will then destroy the files of, in front of you. You can still walk away.";
+    document.getElementById('modal-text').textContent = "We're going to ask you to wire six figures, or send the equivalent in USDC. To people you've never met. For one piece, whose source materials we will destroy on a livestream you attend. You can still walk away.";
     document.getElementById('modal-actions').innerHTML =
-      '<button class="btn" onclick="confirmStep()">Send the wire.</button>' +
+      '<button class="btn" onclick="confirmStep()">Send it.</button>' +
       '<button class="btn btn-secondary" onclick="closeModal()">Walk away</button>';
   } else if (modalStep === 2) {
     modalStep = 3;
     document.getElementById('modal-title').textContent = 'Welcome to the list.';
-    document.getElementById('modal-text').textContent = "Wire details will follow within thirty days. Or they won't. We'll be in touch. Don't call us.";
+    document.getElementById('modal-text').textContent = "Instructions will follow within thirty days. Or they won't. We'll be in touch. Don't call us.";
     document.getElementById('modal-actions').innerHTML =
       '<button class="btn btn-secondary" onclick="closeModal()">Close</button>';
   }
