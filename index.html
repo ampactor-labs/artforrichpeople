@@ -242,6 +242,7 @@ section { padding: 9rem 2.5rem; }
   cursor: pointer;
   transition: all 0.3s;
   font-weight: 500;
+  text-decoration: none;
 }
 .btn:hover { background: var(--accent); color: var(--fg); border-color: var(--accent); }
 
@@ -286,6 +287,18 @@ footer {
   line-height: 1.1;
 }
 .modal-content p { font-size: 1.2rem; margin-bottom: 2.5rem; }
+.modal-content a:not(.btn) {
+  color: var(--fg);
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+  text-decoration-color: var(--dim);
+  text-decoration-thickness: 1px;
+  transition: text-decoration-color 0.3s, color 0.3s;
+}
+.modal-content a:not(.btn):hover {
+  color: var(--accent);
+  text-decoration-color: var(--accent);
+}
 .modal-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
 
 .fade-in {
@@ -431,16 +444,34 @@ function confirmStep() {
   if (modalStep === 1) {
     modalStep = 2;
     document.getElementById('modal-title').textContent = 'Still?';
-    document.getElementById('modal-text').textContent = "We're going to ask you to wire six figures, or send the equivalent in USDC. To people you've never met. For one piece, whose source materials we will destroy on a livestream you attend. You can still walk away.";
+    document.getElementById('modal-text').textContent = "Six figures. Wire or USDC. To people you've never met. For one piece, whose source materials we destroy on camera afterwards. Bitch, you won't.";
     document.getElementById('modal-actions').innerHTML =
       '<button class="btn" onclick="confirmStep()">Send it.</button>' +
       '<button class="btn btn-secondary" onclick="closeModal()">Walk away</button>';
   } else if (modalStep === 2) {
     modalStep = 3;
-    document.getElementById('modal-title').textContent = 'Welcome to the list.';
-    document.getElementById('modal-text').textContent = "Instructions will follow within thirty days. Or they won't. We'll be in touch. Don't call us.";
-    document.getElementById('modal-actions').innerHTML =
-      '<button class="btn btn-secondary" onclick="closeModal()">Close</button>';
+    document.getElementById('modal-title').textContent = 'Noted.';
+
+    const textEl = document.getElementById('modal-text');
+    textEl.textContent = '';
+    const inlineLink = document.createElement('a');
+    inlineLink.href = 'mailto:acquire@artforrichpeople.com';
+    inlineLink.textContent = 'acquire@artforrichpeople.com';
+    textEl.appendChild(inlineLink);
+    textEl.appendChild(document.createTextNode('. Make it convincing. We reply when we reply.'));
+
+    const actionsEl = document.getElementById('modal-actions');
+    actionsEl.textContent = '';
+    const composeBtn = document.createElement('a');
+    composeBtn.className = 'btn';
+    composeBtn.href = 'mailto:acquire@artforrichpeople.com';
+    composeBtn.textContent = 'Compose';
+    actionsEl.appendChild(composeBtn);
+    const closeBtn = document.createElement('button');
+    closeBtn.className = 'btn btn-secondary';
+    closeBtn.onclick = closeModal;
+    closeBtn.textContent = 'Close';
+    actionsEl.appendChild(closeBtn);
   }
 }
 
