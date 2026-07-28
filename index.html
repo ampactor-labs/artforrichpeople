@@ -1,9 +1,10 @@
 <!DOCTYPE html>
+<!-- No scripts. No tracking. -->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; base-uri 'none'; form-action 'none'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; font-src 'self'; img-src 'self'; base-uri 'none'; form-action 'none'">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta property="og:title" content="Art for rich people.">
 <meta property="og:description" content="One piece. One owner. The rest of you can look.">
@@ -17,11 +18,30 @@
 <meta name="twitter:title" content="Art for rich people.">
 <meta name="twitter:description" content="One piece. One owner. The rest of you can look.">
 <meta name="twitter:image" content="https://artforrichpeople.com/og.png">
-<title>ART FOR RICH PEOPLE</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,700;1,400;1,500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<title>ART FOR RICH PEOPLE · 1 OF 1</title>
 <style>
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/cormorant-garamond.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: italic;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url('/fonts/cormorant-garamond-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url('/fonts/jetbrains-mono.woff2') format('woff2');
+}
+
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 :root {
@@ -47,8 +67,6 @@ body {
 
 ::selection { background: var(--accent); color: var(--fg); }
 
-.mono { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; }
-
 nav {
   position: fixed; top: 0; left: 0; right: 0;
   display: flex; justify-content: space-between; align-items: center;
@@ -61,22 +79,30 @@ nav {
 
 nav .logo { font-size: 0.75rem; letter-spacing: 0.2em; }
 nav .status { font-size: 0.7rem; letter-spacing: 0.1em; opacity: 0.7; display: flex; align-items: center; gap: 0.5rem; }
-nav .status::before { content: ''; display: inline-block; width: 6px; height: 6px; background: #5cb85c; border-radius: 50%; animation: pulse 2s infinite; }
+nav .status.live::before { content: ''; display: inline-block; width: 6px; height: 6px; background: #5cb85c; border-radius: 50%; animation: pulse 2s infinite; }
 
 @keyframes pulse {
   0%, 100% { opacity: 1; }
   50% { opacity: 0.4; }
 }
 
+/* State machine: FOR SALE / SOLD / BETWEEN. One attribute on <body>. */
+[data-state="for-sale"] [data-show-when]:not([data-show-when~="for-sale"]),
+[data-state="sold"] [data-show-when]:not([data-show-when~="sold"]),
+[data-state="between"] [data-show-when]:not([data-show-when~="between"]) { display: none; }
+
 .hero {
   min-height: 100vh;
-  display: flex; flex-direction: column; justify-content: center;
-  padding: 0 2.5rem;
+  display: grid;
+  grid-template-columns: 1.05fr 0.95fr;
+  gap: 4rem;
+  align-items: center;
+  padding: 7rem 2.5rem 4rem;
   position: relative;
 }
 
 .hero h1 {
-  font-size: clamp(3.5rem, 14vw, 14rem);
+  font-size: clamp(3rem, 8.5vw, 8.5rem);
   font-weight: 500;
   font-style: italic;
   line-height: 0.88;
@@ -97,6 +123,38 @@ nav .status::before { content: ''; display: inline-block; width: 6px; height: 6p
   letter-spacing: 0.2em; opacity: 0.5;
 }
 
+.hero-piece { width: min(100%, 60.8vh); margin: 0 auto; }
+
+.piece-image {
+  aspect-ratio: 4/5;
+  background: #1a1816;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+}
+
+.piece-image svg { width: 100%; height: 100%; display: block; }
+
+.fold-line {
+  margin-top: 1.5rem;
+  display: flex; justify-content: space-between; align-items: center;
+  gap: 1rem; flex-wrap: wrap;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.78rem;
+  letter-spacing: 0.15em;
+}
+
+.fold-line .sold-mark { color: var(--accent); letter-spacing: 0.3em; font-weight: 500; }
+
+.between-line {
+  margin-top: 2rem;
+  text-align: center;
+  font-style: italic;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 400;
+  line-height: 1.1;
+}
+
 section { padding: 9rem 2.5rem; }
 
 .label {
@@ -110,24 +168,10 @@ section { padding: 9rem 2.5rem; }
 }
 .label::before { content: ''; height: 1px; width: 2.5rem; background: var(--dim); }
 
-.piece {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 5rem;
-  align-items: center;
-  max-width: 1300px;
+.piece-info {
+  max-width: 640px;
   margin: 0 auto;
 }
-
-.piece-image {
-  aspect-ratio: 4/5;
-  background: #1a1816;
-  position: relative;
-  overflow: hidden;
-  box-shadow: 0 30px 80px rgba(0,0,0,0.5);
-}
-
-.piece-image svg { width: 100%; height: 100%; display: block; }
 
 .piece-info h2 {
   font-size: clamp(2.5rem, 5vw, 4.5rem);
@@ -142,6 +186,8 @@ section { padding: 9rem 2.5rem; }
   margin-bottom: 1.25rem;
   max-width: 480px;
 }
+
+.piece-info .label { margin-bottom: 3rem; }
 
 .specs {
   margin-top: 3rem;
@@ -175,39 +221,33 @@ section { padding: 9rem 2.5rem; }
 }
 
 .faq { max-width: 900px; margin: 0 auto; }
-.faq-item {
-  border-top: 1px solid var(--line);
-  padding: 1.75rem 0;
-  cursor: pointer;
-  transition: padding 0.3s;
-}
+.faq-item { border-top: 1px solid var(--line); }
 .faq-item:last-child { border-bottom: 1px solid var(--line); }
-.faq-item h3 {
+.faq-item summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 1.75rem 0;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary h3 {
   font-size: clamp(1.3rem, 2vw, 1.85rem);
   font-weight: 400;
   display: flex; justify-content: space-between; align-items: center;
   gap: 1rem;
 }
-.faq-item h3::after {
+.faq-item summary h3::after {
   content: '+';
   font-family: 'JetBrains Mono', monospace;
   font-size: 1.4rem;
   color: var(--dim);
   transition: transform 0.3s, color 0.3s;
 }
-.faq-item:hover h3::after { color: var(--fg); }
-.faq-item.open h3::after { transform: rotate(45deg); color: var(--accent); }
+.faq-item summary:hover h3::after { color: var(--fg); }
+.faq-item[open] summary h3::after { transform: rotate(45deg); color: var(--accent); }
 .faq-item .answer {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.4s ease, margin 0.4s ease, opacity 0.4s ease;
-  opacity: 0;
+  padding: 0 0 1.75rem;
   font-size: 1.15rem;
   font-style: italic;
-}
-.faq-item.open .answer {
-  max-height: 200px;
-  margin-top: 1rem;
   opacity: 0.85;
 }
 
@@ -221,9 +261,7 @@ section { padding: 9rem 2.5rem; }
   font-weight: 500;
   line-height: 1;
   margin: 2rem 0 1rem;
-  cursor: default;
   display: inline-block;
-  transition: color 0.3s;
 }
 .acquire .note {
   font-family: 'JetBrains Mono', monospace;
@@ -240,6 +278,7 @@ section { padding: 9rem 2.5rem; }
   margin-bottom: 3.5rem;
   opacity: 0.85;
 }
+
 .btn {
   display: inline-block;
   background: var(--fg);
@@ -254,104 +293,11 @@ section { padding: 9rem 2.5rem; }
   transition: all 0.3s;
   font-weight: 500;
   text-decoration: none;
+  text-align: center;
 }
 .btn:hover { background: var(--accent); color: var(--fg); border-color: var(--accent); }
 
-.btn-secondary {
-  background: transparent;
-  color: var(--fg);
-  border: 1px solid var(--dim);
-}
-.btn-secondary:hover { background: transparent; border-color: var(--fg); color: var(--fg); }
-
-footer {
-  border-top: 1px solid var(--line);
-  padding: 2.5rem;
-  display: flex; justify-content: space-between;
-  font-family: 'JetBrains Mono', monospace;
-  font-size: 0.7rem;
-  letter-spacing: 0.15em;
-  color: var(--dim);
-  flex-wrap: wrap;
-  gap: 1rem;
-}
-
-.modal {
-  position: fixed; inset: 0;
-  background: rgba(10, 9, 8, 0.96);
-  backdrop-filter: blur(8px);
-  display: none; align-items: center; justify-content: center;
-  z-index: 200;
-  padding: 2rem;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-.modal.open { display: flex; opacity: 1; }
-.modal-content {
-  text-align: center; max-width: 640px;
-}
-.modal-content h2 {
-  font-size: clamp(2rem, 4vw, 3.5rem);
-  font-style: italic;
-  font-weight: 500;
-  margin-bottom: 1.5rem;
-  line-height: 1.1;
-}
-.modal-content p { font-size: 1.2rem; margin-bottom: 2.5rem; }
-.modal-content a:not(.btn) {
-  color: var(--fg);
-  text-decoration: underline;
-  text-underline-offset: 0.25em;
-  text-decoration-color: var(--dim);
-  text-decoration-thickness: 1px;
-  transition: text-decoration-color 0.3s, color 0.3s;
-}
-.modal-content a:not(.btn):hover {
-  color: var(--accent);
-  text-decoration-color: var(--accent);
-}
-.modal-actions { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-
-.fade-in {
-  opacity: 0;
-  transform: translateY(24px);
-  transition: opacity 0.9s ease, transform 0.9s ease;
-}
-.fade-in.visible { opacity: 1; transform: translateY(0); }
-
-[data-state="for-sale"] [data-show-when="between"],
-[data-state="between"] [data-show-when="for-sale"] {
-  display: none;
-}
-[data-state="for-sale"] nav .status-between,
-[data-state="between"] nav .status-for-sale { display: none; }
-nav .status-between::before { content: none; }
-
-.between-pieces {
-  max-width: 720px;
-  margin: 0 auto;
-  text-align: center;
-}
-.between-pieces .piece-image {
-  aspect-ratio: 4/5;
-  max-width: 440px;
-  margin: 0 auto 4rem;
-}
-.between-line {
-  font-family: 'Cormorant Garamond', serif;
-  font-style: italic;
-  font-size: clamp(2.2rem, 5vw, 4rem);
-  font-weight: 400;
-  line-height: 1.1;
-}
-
-footer a {
-  color: var(--dim);
-  text-decoration: none;
-  letter-spacing: 0.15em;
-  transition: color 0.3s;
-}
-footer a:hover { color: var(--fg); }
+.btn-fold { padding: 0.85rem 1.7rem; font-size: 0.7rem; }
 
 .refusals {
   padding: 6rem 2.5rem;
@@ -373,26 +319,54 @@ footer a:hover { color: var(--fg); }
   font-weight: 500;
   letter-spacing: 0.3em;
   color: var(--dim);
-  opacity: 0;
-  transform: translateY(8px);
-  transition: opacity 0.7s ease, transform 0.7s ease, color 0.5s ease;
+  transition: color 0.5s ease;
   cursor: default;
 }
 .refusals li:hover { color: var(--accent); }
-.refusals.visible li { opacity: 1; transform: translateY(0); }
-.refusals.visible li:nth-child(1) { transition-delay: 0.05s; }
-.refusals.visible li:nth-child(2) { transition-delay: 0.15s; }
-.refusals.visible li:nth-child(3) { transition-delay: 0.25s; }
-.refusals.visible li:nth-child(4) { transition-delay: 0.35s; }
-.refusals.visible li:nth-child(5) { transition-delay: 0.45s; }
-.refusals.visible li:nth-child(6) { transition-delay: 0.55s; }
+
+footer {
+  border-top: 1px solid var(--line);
+  padding: 2.5rem;
+  display: flex; justify-content: space-between;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  color: var(--dim);
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+footer a {
+  color: var(--dim);
+  text-decoration: none;
+  letter-spacing: 0.15em;
+  transition: color 0.3s;
+}
+footer a:hover { color: var(--fg); }
+
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .fade-in {
+      animation-name: fade-in;
+      animation-timing-function: ease;
+      animation-fill-mode: both;
+      animation-timeline: view();
+      animation-range: entry 10% entry 50%;
+    }
+    @keyframes fade-in {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: none; }
+    }
+  }
+}
 
 @media (max-width: 800px) {
-  .piece { grid-template-columns: 1fr; gap: 3rem; }
+  .hero { grid-template-columns: 1fr; gap: 2.5rem; align-items: start; min-height: auto; padding: 7rem 1.5rem 4rem; }
+  .hero .tag { margin-top: 1.5rem; }
+  .hero .scroll { display: none; }
+  .hero-piece { width: 100%; }
   section { padding: 5rem 1.5rem; }
   nav { padding: 1rem 1.5rem; }
-  .hero { padding: 0 1.5rem; min-height: calc(100vh - 100px); }
-  .hero .scroll { left: 1.5rem; }
   footer { padding: 2rem 1.5rem; }
   .refusals { padding: 4rem 1.5rem; }
   .refusals ul { gap: 1rem 2rem; justify-content: center; }
@@ -403,21 +377,19 @@ footer a:hover { color: var(--fg); }
 
 <nav>
   <div class="logo">A · F · R · P</div>
-  <div class="status status-for-sale">1 PIECE AVAILABLE</div>
-  <div class="status status-between">BETWEEN PIECES</div>
+  <div class="status live" data-show-when="for-sale">PIECE 001 · AVAILABLE</div>
+  <div class="status" data-show-when="sold">PIECE 001 · SOLD</div>
+  <div class="status" data-show-when="between">BETWEEN PIECES</div>
 </nav>
 
 <section class="hero">
-  <h1>Art for<br>rich people.</h1>
-  <p class="tag">One piece. One owner. The rest of you can look.</p>
-  <div class="scroll">↓ &nbsp;&nbsp; SCROLL, IF YOU INSIST</div>
-</section>
-
-<section data-show-when="for-sale">
-  <div class="label fade-in">The piece</div>
-  <div class="piece">
-    <div class="piece-image fade-in">
-      <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice">
+  <div class="hero-copy">
+    <h1>Art for<br>rich people.</h1>
+    <p class="tag">One piece. One owner. The rest of you can look.</p>
+  </div>
+  <div class="hero-piece">
+    <div class="piece-image" data-show-when="for-sale sold">
+      <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Laughing All Along, piece 001">
         <defs>
           <radialGradient id="vignette" cx="50%" cy="45%" r="75%">
             <stop offset="0%" stop-color="#1c1815"/>
@@ -441,26 +413,8 @@ footer a:hover { color: var(--fg); }
         <rect width="400" height="500" filter="url(#grain)" opacity="0.6"/>
       </svg>
     </div>
-    <div class="piece-info fade-in">
-      <h2>Laughing All Along.</h2>
-      <p>A photograph. The source materials are gone.</p>
-      <div class="specs">
-        <div><span>Edition</span><span>1 of 1</span></div>
-        <div><span>Medium</span><span>Photograph</span></div>
-        <div><span>Dimensions</span><span>Yes</span></div>
-        <div><span>Year</span><span>2026</span></div>
-        <div><span>Provenance</span><span>None of your business</span></div>
-        <div><span>Status</span><span class="available">AVAILABLE</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section data-show-when="between">
-  <div class="label fade-in" style="justify-content: center;">Status</div>
-  <div class="between-pieces fade-in">
-    <div class="piece-image">
-      <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice">
+    <div class="piece-image" data-show-when="between">
+      <svg viewBox="0 0 400 500" preserveAspectRatio="xMidYMid slice" role="img" aria-label="Between pieces">
         <defs>
           <radialGradient id="vignette-b" cx="50%" cy="45%" r="75%">
             <stop offset="0%" stop-color="#1c1815"/>
@@ -477,7 +431,32 @@ footer a:hover { color: var(--fg); }
         <rect width="400" height="500" filter="url(#grain-b)" opacity="0.6"/>
       </svg>
     </div>
-    <p class="between-line">Between pieces. Check back.</p>
+    <div class="fold-line" data-show-when="for-sale">
+      <span>PIECE 001 · $175,000</span>
+      <a class="btn btn-fold" href="/acquire.html">Acquire</a>
+    </div>
+    <div class="fold-line" data-show-when="sold">
+      <span>PIECE 001</span>
+      <span class="sold-mark">SOLD.</span>
+    </div>
+    <p class="between-line" data-show-when="between">Between pieces. Check back.</p>
+  </div>
+  <div class="scroll">↓ &nbsp;&nbsp; SCROLL, IF YOU INSIST</div>
+</section>
+
+<section data-show-when="for-sale sold">
+  <div class="piece-info">
+    <div class="label fade-in">The piece</div>
+    <h2 class="fade-in">Laughing All Along.</h2>
+    <p class="fade-in">A photograph. The source materials are gone.</p>
+    <div class="specs fade-in">
+      <div><span>Edition</span><span>1 of 1</span></div>
+      <div><span>Medium</span><span>Photograph</span></div>
+      <div><span>Dimensions</span><span>Yes</span></div>
+      <div><span>Year</span><span>2026</span></div>
+      <div><span>Provenance</span><span>None of your business</span></div>
+      <div><span>Status</span><span class="available">AVAILABLE</span></div>
+    </div>
   </div>
 </section>
 
@@ -490,27 +469,28 @@ footer a:hover { color: var(--fg); }
 
 <section>
   <div class="label fade-in">Frequently asked, rarely answered</div>
-  <div class="faq">
-    <div class="faq-item"><h3>Why is it so expensive?</h3><div class="answer">Because someone else wants it.</div></div>
-    <div class="faq-item"><h3>Why would anyone buy this?</h3><div class="answer">Because someone else can't.</div></div>
-    <div class="faq-item"><h3>Can I get a print?</h3><div class="answer">No.</div></div>
-    <div class="faq-item"><h3>Can I see more pieces?</h3><div class="answer">When this one sells.</div></div>
-    <div class="faq-item"><h3>Is it really one of one?</h3><div class="answer">The source materials are destroyed on livestream. You get the link. You get to watch. There is no second copy in the world.</div></div>
-    <div class="faq-item"><h3>Who made this?</h3><div class="answer">Us.</div></div>
-    <div class="faq-item"><h3>What if I don't like it?</h3><div class="answer">Then you weren't ready.</div></div>
-    <div class="faq-item"><h3>Can I get a discount?</h3><div class="answer">That was the discount.</div></div>
-    <div class="faq-item"><h3>Returns?</h3><div class="answer">No.</div></div>
-    <div class="faq-item"><h3>What if I'm not rich?</h3><div class="answer">Glad you're here. Tell your boss.</div></div>
-    <div class="faq-item"><h3>Is this a joke?</h3><div class="answer">Your move.</div></div>
+  <div class="faq fade-in">
+    <details class="faq-item"><summary><h3>Why is it so expensive?</h3></summary><div class="answer">Because someone else wants it.</div></details>
+    <details class="faq-item"><summary><h3>Why would anyone buy this?</h3></summary><div class="answer">Because someone else can't.</div></details>
+    <details class="faq-item"><summary><h3>Can I get a print?</h3></summary><div class="answer">No.</div></details>
+    <details class="faq-item"><summary><h3>Can I see it in person first?</h3></summary><div class="answer">No.</div></details>
+    <details class="faq-item"><summary><h3>Can I see more pieces?</h3></summary><div class="answer">When this one sells.</div></details>
+    <details class="faq-item"><summary><h3>Is it really one of one?</h3></summary><div class="answer">The source materials are destroyed on livestream. You get the link. You get to watch. There is no second copy in the world.</div></details>
+    <details class="faq-item"><summary><h3>Who made this?</h3></summary><div class="answer">Us.</div></details>
+    <details class="faq-item"><summary><h3>What if I don't like it?</h3></summary><div class="answer">Then you weren't ready.</div></details>
+    <details class="faq-item"><summary><h3>Can I get a discount?</h3></summary><div class="answer">That was the discount.</div></details>
+    <details class="faq-item"><summary><h3>Returns?</h3></summary><div class="answer">No.</div></details>
+    <details class="faq-item"><summary><h3>What if I'm not rich?</h3></summary><div class="answer">Glad you're here. Tell your boss.</div></details>
+    <details class="faq-item"><summary><h3>Is this a joke?</h3></summary><div class="answer">Your move.</div></details>
   </div>
 </section>
 
 <section class="acquire" data-show-when="for-sale">
   <div class="label fade-in" style="justify-content: center;">Acquisition</div>
-  <div class="price-wrap fade-in"><div class="price">$ 175,000</div></div>
+  <div class="fade-in"><div class="price">$ 175,000</div></div>
   <div class="note fade-in">WIRE OR USDC · NO CARDS · NO HAGGLING · NO RETURNS</div>
   <div class="truth fade-in">ONE PERSON OWNS IT. EVERYONE ELSE WATCHES.</div>
-  <button class="btn fade-in" onclick="openModal()">Acquire the piece</button>
+  <a class="btn fade-in" href="/acquire.html">Acquire the piece</a>
 </section>
 
 <section class="refusals fade-in">
@@ -521,6 +501,7 @@ footer a:hover { color: var(--fg); }
     <li>NO PRINTS</li>
     <li>NO RESALE</li>
     <li>NO COMMUNITY</li>
+    <li>NO JAVASCRIPT</li>
   </ul>
 </section>
 
@@ -529,81 +510,6 @@ footer a:hover { color: var(--fg); }
   <a href="/archive.html">ARCHIVE</a>
   <div>WE'LL CALL YOU. DON'T CALL US.</div>
 </footer>
-
-<div class="modal" id="modal">
-  <div class="modal-content">
-    <h2>Acquisition</h2>
-    <p>$175,000. Wire or USDC. The piece is a one-of-one — no reproductions, no editions, no prints. Delivery by accredited art handlers, fully insured. Source materials are destroyed on a recorded livestream the buyer attends. No returns.</p>
-    <p>Write to <a data-mailto data-mailto-show>the address</a> to begin.</p>
-    <div class="modal-actions">
-      <a class="btn" data-mailto>Compose</a>
-      <button class="btn btn-secondary" onclick="closeModal()">Close</button>
-    </div>
-  </div>
-</div>
-
-<script>
-(function() {
-  const email = ['acquire', '@', 'artforrichpeople', '.com'].join('');
-  const mailto = 'mailto:' + email;
-  document.querySelectorAll('[data-mailto]').forEach(el => {
-    el.href = mailto;
-  });
-  document.querySelectorAll('[data-mailto-show]').forEach(el => {
-    el.textContent = email;
-  });
-})();
-
-function openModal() {
-  document.getElementById('modal').classList.add('open');
-}
-function closeModal() {
-  document.getElementById('modal').classList.remove('open');
-}
-
-// State-aware browser title
-document.title = ({
-  'for-sale': 'ART FOR RICH PEOPLE · 1 OF 1',
-  'between': 'ART FOR RICH PEOPLE · BETWEEN PIECES'
-})[document.body.dataset.state] || document.title;
-
-// FAQ accordion
-document.querySelectorAll('.faq-item').forEach(item => {
-  item.addEventListener('click', () => item.classList.toggle('open'));
-});
-
-// Fade in on scroll
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.1 });
-document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
-
-// Close modal on backdrop click
-document.getElementById('modal').addEventListener('click', (e) => {
-  if (e.target.id === 'modal') closeModal();
-});
-</script>
-
-<!--
-  Analytics — privacy-respecting, no cookies, no consent banner needed.
-  Pick ONE option below when ready. See NOTES/ANALYTICS.md for setup.
-
-  OPTION A — Cloudflare Web Analytics (free):
-    1. dash.cloudflare.com → Web Analytics → Add a site → enter artforrichpeople.com
-    2. Copy the beacon token; paste into the script tag below; uncomment it
-    3. Update CSP at top of file: add `https://static.cloudflareinsights.com` to script-src AND
-       a new directive `connect-src 'self' https://static.cloudflareinsights.com`
-
-    <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"YOUR_CF_TOKEN"}'></script>
-
-  OPTION B — Plausible ($9/mo, better dashboards, 30-day free trial):
-    1. plausible.io → add site artforrichpeople.com
-    2. Uncomment the script tag below
-    3. Update CSP at top of file: add `https://plausible.io` to script-src AND
-       a new directive `connect-src 'self' https://plausible.io`
-
-    <script defer data-domain="artforrichpeople.com" src="https://plausible.io/js/script.js"></script>
--->
 
 </body>
 </html>

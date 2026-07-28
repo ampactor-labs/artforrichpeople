@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<!-- No scripts. No tracking. -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'; font-src 'self'; img-src 'self'; base-uri 'none'; form-action 'none'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta property="og:title" content="Acquisition · Art for rich people.">
+<meta property="og:description" content="Terms. An address. Nothing else.">
+<meta property="og:url" content="https://artforrichpeople.com/acquire.html">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://artforrichpeople.com/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<title>ACQUISITION · ART FOR RICH PEOPLE</title>
+<style>
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/cormorant-garamond.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Cormorant Garamond';
+  font-style: italic;
+  font-weight: 300 700;
+  font-display: swap;
+  src: url('/fonts/cormorant-garamond-italic.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'JetBrains Mono';
+  font-style: normal;
+  font-weight: 400 800;
+  font-display: swap;
+  src: url('/fonts/jetbrains-mono.woff2') format('woff2');
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #0A0908;
+  --fg: #EAE0D5;
+  --dim: #6B635A;
+  --line: #2a2825;
+  --accent: #C1121F;
+}
+
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  line-height: 1.4;
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection { background: var(--accent); color: var(--fg); }
+
+[data-state="for-sale"] [data-show-when]:not([data-show-when~="for-sale"]),
+[data-state="sold"] [data-show-when]:not([data-show-when~="sold"]),
+[data-state="between"] [data-show-when]:not([data-show-when~="between"]) { display: none; }
+
+nav {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1.5rem 2.5rem;
+  font-family: 'JetBrains Mono', monospace;
+  color: var(--fg);
+}
+nav a { color: inherit; text-decoration: none; }
+nav .logo { font-size: 0.75rem; letter-spacing: 0.2em; }
+nav .label { font-size: 0.7rem; letter-spacing: 0.15em; opacity: 0.7; }
+
+main {
+  flex: 1;
+  padding: 6rem 2.5rem 9rem;
+  max-width: 760px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+main h1 {
+  font-size: clamp(3rem, 7vw, 6rem);
+  font-weight: 500;
+  font-style: italic;
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  margin-bottom: 3rem;
+}
+
+main p {
+  font-size: 1.25rem;
+  margin-bottom: 2rem;
+  max-width: 640px;
+}
+
+main a:not(.btn) {
+  color: var(--fg);
+  text-decoration: underline;
+  text-underline-offset: 0.25em;
+  text-decoration-color: var(--dim);
+  text-decoration-thickness: 1px;
+  transition: text-decoration-color 0.3s, color 0.3s;
+}
+main a:not(.btn):hover {
+  color: var(--accent);
+  text-decoration-color: var(--accent);
+}
+
+.actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-top: 3rem; }
+
+.btn {
+  display: inline-block;
+  background: var(--fg);
+  color: var(--bg);
+  padding: 1.3rem 3rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.8rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  border: 1px solid var(--fg);
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 500;
+  text-decoration: none;
+  text-align: center;
+}
+.btn:hover { background: var(--accent); color: var(--fg); border-color: var(--accent); }
+
+.btn-secondary {
+  background: transparent;
+  color: var(--fg);
+  border: 1px solid var(--dim);
+}
+.btn-secondary:hover { background: transparent; border-color: var(--fg); color: var(--fg); }
+
+.between-line {
+  font-style: italic;
+  font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+  line-height: 1.1;
+}
+
+footer {
+  border-top: 1px solid var(--line);
+  padding: 2.5rem;
+  display: flex; justify-content: space-between;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  color: var(--dim);
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+@media (max-width: 800px) {
+  main { padding: 4rem 1.5rem 6rem; }
+  nav { padding: 1rem 1.5rem; }
+  footer { padding: 2rem 1.5rem; }
+}
+</style>
+</head>
+<body data-state="for-sale">
+
+<nav>
+  <a href="/" class="logo">A · F · R · P</a>
+  <div class="label">ACQUISITION</div>
+</nav>
+
+<main>
+  <h1>Acquisition.</h1>
+
+  <div data-show-when="for-sale">
+    <p>$175,000. Wire or USDC. The piece is a one-of-one — no reproductions, no editions, no prints. Delivery by accredited art handlers, fully insured. Source materials are destroyed on a recorded livestream the buyer attends. No returns.</p>
+    <p>Write to <a href="mailto:&#97;&#99;&#113;&#117;&#105;&#114;&#101;&#64;&#97;&#114;&#116;&#102;&#111;&#114;&#114;&#105;&#99;&#104;&#112;&#101;&#111;&#112;&#108;&#101;&#46;&#99;&#111;&#109;">&#97;&#99;&#113;&#117;&#105;&#114;&#101;&#64;&#97;&#114;&#116;&#102;&#111;&#114;&#114;&#105;&#99;&#104;&#112;&#101;&#111;&#112;&#108;&#101;&#46;&#99;&#111;&#109;</a> to begin. One reply, within 48 hours.</p>
+    <div class="actions">
+      <a class="btn" href="mailto:&#97;&#99;&#113;&#117;&#105;&#114;&#101;&#64;&#97;&#114;&#116;&#102;&#111;&#114;&#114;&#105;&#99;&#104;&#112;&#101;&#111;&#112;&#108;&#101;&#46;&#99;&#111;&#109;">Compose</a>
+      <a class="btn btn-secondary" href="/">Return</a>
+    </div>
+  </div>
+
+  <div data-show-when="sold between">
+    <p class="between-line">Between pieces. Check back.</p>
+    <div class="actions">
+      <a class="btn btn-secondary" href="/">Return</a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div>© ARTFORRICHPEOPLE · 2026</div>
+  <div>WE'LL CALL YOU. DON'T CALL US.</div>
+</footer>
+
+</body>
+</html>

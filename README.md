@@ -2,6 +2,8 @@
 
 A storefront that sells one piece at a time.
 
+No build. No scripts.
+
 ## Run locally
 
 It's an HTML file. Open it in a browser.
